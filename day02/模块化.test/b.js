@@ -1,0 +1,1 @@
+exports.a={name:'za',age:20}

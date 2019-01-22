@@ -46,10 +46,10 @@ let pms = new Promise((res,rej)=>{
   let StudentsModel = mgs.model('students',studentsSchema)
 
   //4.创建document对象
-  let stu1 = new StudentsModel({
+  /*let stu1 = new StudentsModel({
     name: 'ZS',
     age: 20
-  })
+  })*/
   //4.1保存数据
   /*stu1.save((err,data)=>{
     if (err){

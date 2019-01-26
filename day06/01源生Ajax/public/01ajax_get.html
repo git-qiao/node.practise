@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>ajax</title>
+</head>
+<body>
+<button>报头版头条你</button>
+<script>
+  /*
+  * 【源生Ajax请求的步骤】
+  *   1.创建一个XMLHttpRequest对象
+  *   2.绑定监听，onreadystatechange
+  *   3.设置请求信息（方式。地址。）
+  *   4.发送请求
+  *
+  * */
+
+  const btn = document.querySelector('button')
+  btn.onclick = function () {
+    //1.创建XHR对象
+    const xhr = new XMLHttpRequest()
+    console.log('初始化完成之后的xhr状态---'+xhr.readyState)
+    //2.绑定监听
+    xhr.onreadystatechange = function () {
+      /*
+       * xhr内部有个状态。0-4五种
+       *   1） 0 -- xhr已经创建了，但是还没有调用open方法
+       *   2） 1 -- send方法还没被调用，依然可以修改请求信息（请求头）
+       *   3） 2 -- send方法被调用了，不可以再去修改任何请求信息，并且已经回来一部分数据（响应首行，响应头）
+       *   4） 3 -- 回来一部分数据，但是数据有可能不完整，需要进一步接受（如果响应的是纯文本或比较小的数据，会在这一步直接全部接受）
+       *   5） 4 -- 数据全部回来了
+       *
+       * */
+      if (xhr.readyState===4 && xhr.status===200){
+        console.log(xhr.responseText);
+      }
+
+      /*//分析状态0  --  XMLHttpRequest初始化状态
+      if(xhr.readyState===0){//不会打印，因为事件监听的是状态的改变0-0是无改变的状态
+        console.log(0000)
+      }
+
+      //分析状态1  --  send未被调用，可以设置请求头
+      if (xhr.readyState===1){
+        console.log('readyState状态--'+1)
+        xhr.setRequestHeader('aa',11111)
+      }
+
+      //分析状态2  --  send被调用，且服务器返回了响应首行和响应头
+      if (xhr.readyState===2){
+        console.log('readyState状态--'+2)
+        //xhr.setRequestHeader('bb',22222)
+      }
+
+      //分析状态3  --  服务器返回的信息，客户端有可能没有接受完毕，假如数据较小，这一步就可以完成数据被客户端完整接受
+      if (xhr.readyState===3){
+        console.log('readyState状态--'+3)
+        console.log(xhr.responseText);
+      }*/
+
+    }
+    //3.设置请求信息
+    xhr.open('GET','http://localhost:2000/test?name=jack&age=10&t='+Date.now())
+    //设置请求头信息(GET中用的不多)
+    xhr.setRequestHeader('content-type','text/plain')//告诉服务器发送的是一个纯文本数据
+
+    //4.发送请求
+    xhr.send()
+
+    /*
+    * get请求的缓存问题
+    *   1.对于chrome和Firefox浏览器
+    *     只要get请求的请求地址和请求参数都不发生变化，那么回走缓存（协商缓存）
+    *   2.对于IE浏览器
+    *     只要get请求的地址和请求参数不发生变化，那么回走强缓存
+    *
+    *   我们希望，每次服务器都会接收到客户端的请求，并且给出响应，
+    *   可以通过 传递一个无关紧要的参数，一般是时间戳
+    *   例如： xhr.open('get',xxxx?name=xx&t=Date.now())
+    *
+    * */
+
+  }
+
+
+
+
+</script>
+</body>
+</html>

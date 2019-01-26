@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>ajax</title>
+</head>
+<body>
+  <button>XXXX</button>
+<script>
+  const btn = document.querySelector('button')
+  btn.onclick = function () {
+    const xhr = new XMLHttpRequest() //初始化一个异步实例，此时状态就为0
+    console.log('初始化的状态--'+xhr.readyState);
+
+    xhr.open('get','http://localhost:2000/one?name=rose&age=100')
+    console.log(xhr.readyState)
+    xhr.setRequestHeader('content-type','text/plain')//get请求一般不用设置
+
+    xhr.send()
+    console.log(xhr.readyState)
+    xhr.addEventListener('readystatechange',function () {
+      if (xhr.readyState===4 && xhr.status===200){
+        console.log('服务器返回的：查询字符串的age值---'+this.responseText);
+      }
+//      console.log(xhr.readyState)
+
+      if (xhr.readyState===1){ //不生效
+        console.log(111)
+        xhr.setRequestHeader('aa',2222)
+      }
+    })
+  }
+
+
+</script>
+</body>
+</html>

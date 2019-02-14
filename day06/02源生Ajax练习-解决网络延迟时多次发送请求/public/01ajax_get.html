@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>ajax</title>
+</head>
+<body>
+<button>报头版头条你</button>
+<script>
+
+  const btn = document.querySelector('button')
+  let lastXhr = null  //缓存上一次的xhr对象
+  btn.onclick = function () {
+    //判断是否有上一次的请求
+    if (lastXhr){
+      lastXhr.abort()  //再浏览器给出响应之前，取消上一次的请求
+    }
+   lastXhr = getCode('get','http://localhost:2000/?name=jack&age=10')
+    //lastXhr.abort()
+  }
+
+  function getCode(method,url){
+    //1.创建XHR对象
+    let xhr = new XMLHttpRequest()
+    //console.log('初始化完成之后的xhr状态---'+xhr.readyState)
+    //2.绑定监听
+    xhr.onreadystatechange = function () {
+
+      if (xhr.readyState===4 && xhr.status===200){
+        console.log(xhr.responseText);
+      }
+    }
+    //3.设置请求信息
+    xhr.open(method,url)
+//    xhr.open(method,'http://localhost:2000/?name=jack&age=10')
+    //设置请求头信息(GET中用的不多)
+    xhr.setRequestHeader('content-type','text/plain')//告诉服务器发送的是一个纯文本数据
+
+    //4.发送请求
+    xhr.send()
+
+    return xhr;
+  }
+
+
+</script>
+</body>
+</html>
